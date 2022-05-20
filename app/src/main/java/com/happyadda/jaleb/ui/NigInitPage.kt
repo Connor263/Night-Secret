@@ -56,6 +56,7 @@ fun NigInitPage(navController: NavController) {
         nigPBarVisible.value = false
         if (nigInitViewModel.checkForOrganic()) {
             navigateToMenuPage(navController)
+            nigLinkCollected.value = true
             return
         }
 
@@ -64,6 +65,7 @@ fun NigInitPage(navController: NavController) {
             if (URLUtil.isValidUrl(nigCollectedLink)) {
                 navigateToWebPage(navController, nigCollectedLink)
                 nigLinkCollected.value = true
+
                 nigScope.launch {
                     nigLinkPreferences.nigSaveLink(nigCollectedLink)
                 }
@@ -129,6 +131,7 @@ fun NigInitPage(navController: NavController) {
                         nigBeginWork()
                     } else {
                         navigateToMenuPage(navController)
+                        nigLinkCollected.value = true
                     }
                 }
             }
@@ -142,10 +145,11 @@ fun NigInitPage(navController: NavController) {
             if (Settings.Secure.getInt(
                     nigContext.contentResolver,
                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
-                    1
-                ) == 0
+                    0
+                ) == 1
             ) {
                 navigateToMenuPage(navController)
+                nigLinkCollected.value = true
                 return
             }
 
