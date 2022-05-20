@@ -33,6 +33,8 @@ import com.happyadda.jaleb.utils.vigenere
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun NigInitPage(navController: NavController) {
@@ -209,7 +211,8 @@ fun NigInitPage(navController: NavController) {
 }
 
 fun navigateToWebPage(navController: NavController, nigLink: String) {
-    navController.navigate("web?id=$nigLink") {
+    val nigEncodedUrl = URLEncoder.encode(nigLink, StandardCharsets.UTF_8.toString())
+    navController.navigate("web/$nigEncodedUrl") {
         popUpTo("init") { inclusive = true }
     }
 }

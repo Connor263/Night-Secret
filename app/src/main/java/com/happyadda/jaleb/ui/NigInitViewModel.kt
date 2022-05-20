@@ -46,8 +46,9 @@ class NigInitViewModel : ViewModel() {
         val nigOrganic = "qfshnxr".vigenere().replaceFirstChar { it.uppercase() }
         if (value == nigOrganic && nigMainLink.nigDeepLink == null) {
             nigMainLink.nigMediaSource = "qfshnxr".vigenere()
+            Log.d("TAG", "nigSetAfStatus: $value")
         }
-        Log.d("TAG", "nigSetAfStatus: $value")
+
     }
 
     fun nigSetMediaSource(value: String) {

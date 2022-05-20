@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
@@ -32,6 +33,7 @@ import com.happyadda.jaleb.utils.vigenere
 @Composable
 fun WebPage(navController: NavController, string: String) {
     val nigState = rememberWebViewState(string)
+    Log.d("TAG", "WebPage: $string")
     val nigFileData = remember { mutableStateOf<ValueCallback<Uri>?>(null) }
     val nigFilePath = remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
 
