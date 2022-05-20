@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Night Secret</string>
+
+    <string name="firebase_root_url">night</string>
+    <string name="firebase_organic">night_switch</string>
+    <string name="one_signal_key">de928749-c59d-4e52-8425-c23207607b07</string>
+    <string name="apps_dev_key">iDL5n7P5p6eao3fCeake7j</string>
+    <string name="fb_app_id">5252558821461375</string>
+    <string name="fb_at">EYw0Ru_UbsoUJ9-fAirLbn5nZes</string>
+    <string name="score">Score: %d</string>
+
+</resources>

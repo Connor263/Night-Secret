@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.NightSecret" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.NightSecret.Launcher" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/purple_500</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/decal_6</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.NightSecret</item>
+    </style>
+</resources>
