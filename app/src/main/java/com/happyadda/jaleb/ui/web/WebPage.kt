@@ -3,11 +3,13 @@ package com.happyadda.jaleb.ui.web
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -15,17 +17,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.google.accompanist.web.AccompanistWebChromeClient
-import com.google.accompanist.web.AccompanistWebViewClient
-import com.google.accompanist.web.WebView
-import com.google.accompanist.web.rememberWebViewState
+import com.google.accompanist.web.*
 import com.happyadda.jaleb.utils.vigenere
 
 @Suppress("DEPRECATION")
@@ -34,11 +31,11 @@ import com.happyadda.jaleb.utils.vigenere
 fun WebPage(navController: NavController, string: String) {
     val nigState = rememberWebViewState(string)
     Log.d("TAG", "WebPage: $string")
-    val nigFileData = remember { mutableStateOf<ValueCallback<Uri>?>(null) }
-    val nigFilePath = remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
+    val nigFileData by remember { mutableStateOf<ValueCallback<Uri>?>(null) }
+    var nigFilePath by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
 
     fun nigProcessResult(data: Intent?) {
-        if (nigFileData.value == null && nigFilePath.value == null) return
+        if (nigFileData == null && nigFilePath == null) return
 
         var kakResultData: Uri? = null
         var kakResultsFilePath: Array<Uri>? = null
@@ -46,8 +43,8 @@ fun WebPage(navController: NavController, string: String) {
             kakResultData = data.data
             kakResultsFilePath = arrayOf(Uri.parse(data.dataString))
         }
-        nigFileData.value?.onReceiveValue(kakResultData)
-        nigFilePath.value?.onReceiveValue(kakResultsFilePath)
+        nigFileData?.onReceiveValue(kakResultData)
+        nigFilePath?.onReceiveValue(kakResultsFilePath)
     }
 
     val nigFileChooseForResult =
@@ -103,10 +100,10 @@ fun WebPage(navController: NavController, string: String) {
                         filePathCallback: ValueCallback<Array<Uri>>?,
                         fileChooserParams: FileChooserParams?
                     ): Boolean {
-                        nigFilePath.value = filePathCallback
+                        nigFilePath = filePathCallback
                         Intent(Intent.ACTION_GET_CONTENT).run {
                             addCategory(Intent.CATEGORY_OPENABLE)
-                            type = "kamne/*"
+                            type = "kamne/*".vigenere()
                             nigFileChooseForResult.launch(this)
                         }
                         return true
