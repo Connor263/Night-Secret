@@ -124,12 +124,14 @@ fun WebPage(navController: NavController, string: String) {
     }
 
     BackHandler {
-        if (nigState.loadingState is LoadingState.Loading ||
-            (nigState.loadingState == LoadingState.Finished && nigNavigator.canGoBack)
-        ) {
-            nigNavigator.navigateBack()
-        } else {
-            (nigContext as Activity).moveTaskToBack(true)
+        nigState.loadingState.let { state ->
+            if (state is LoadingState.Loading ||
+                (state is LoadingState.Finished && nigNavigator.canGoBack)
+            ) {
+                nigNavigator.navigateBack()
+            } else {
+                (nigContext as Activity).moveTaskToBack(true)
+            }
         }
     }
 }
