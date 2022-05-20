@@ -1,7 +1,6 @@
 package com.happyadda.jaleb.data.game.preferences
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -22,7 +21,6 @@ class NigLinkPreferences(private val context: Context) {
     suspend fun nigSaveLink(value: String) {
         context.nigLinkPreferences.edit { preferences ->
             preferences[NIG_LINK_KEY] = value
-            Log.d("TAG", "nigSaveLink: $value")
         }
     }
 }

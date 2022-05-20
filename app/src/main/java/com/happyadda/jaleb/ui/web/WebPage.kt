@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
@@ -20,7 +19,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.google.accompanist.web.*
 import com.happyadda.jaleb.utils.vigenere
@@ -29,8 +27,6 @@ import com.happyadda.jaleb.utils.vigenere
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun WebPage(navController: NavController, string: String) {
-    Log.d("TAG", "WebPage: $string")
-    val nigContext = LocalContext.current
     val nigState = rememberWebViewState(string)
     val nigNavigator = rememberWebViewNavigator()
 
@@ -129,8 +125,6 @@ fun WebPage(navController: NavController, string: String) {
                 (state is LoadingState.Finished && nigNavigator.canGoBack)
             ) {
                 nigNavigator.navigateBack()
-            } else {
-                (nigContext as Activity).moveTaskToBack(true)
             }
         }
     }

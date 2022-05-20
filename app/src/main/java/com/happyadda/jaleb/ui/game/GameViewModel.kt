@@ -76,7 +76,7 @@ class GameViewModel : ViewModel() {
 
         when (resultList.count { it.type == maxType }) {
             1 -> decreaseScore()
-            2 -> increaseScore(25)
+            2 -> increaseScore(2500)
             3 -> increaseScore(50)
             4 -> increaseScore(100)
         }

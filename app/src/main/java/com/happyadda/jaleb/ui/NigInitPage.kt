@@ -2,7 +2,6 @@ package com.happyadda.jaleb.ui
 
 import android.content.Context
 import android.provider.Settings
-import android.util.Log
 import android.webkit.URLUtil
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,7 +69,6 @@ fun NigInitPage(navController: NavController) {
                     nigLinkPreferences.nigSaveLink(nigCollectedLink)
                 }
             }
-            Log.d("TAG", "nigCollectLink: $nigCollectedLink")
         }
     }
 
@@ -126,7 +124,6 @@ fun NigInitPage(navController: NavController) {
                 val nigSwitch =
                     getBoolean(context.resources.getString(R.string.firebase_organic))
                 nigInitViewModel.setUrlAndOrganic(nigUrl, nigSwitch) { correct ->
-                    Log.d("TAG", "nigInitFirebase: $correct")
                     if (correct) {
                         nigBeginWork()
                     } else {
@@ -146,7 +143,7 @@ fun NigInitPage(navController: NavController) {
                     nigContext.contentResolver,
                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
                     0
-                ) == 0
+                ) == 1
             ) {
                 navigateToMenuPage(navController)
                 nigLinkCollected.value = true
@@ -155,7 +152,6 @@ fun NigInitPage(navController: NavController) {
 
 
             if (nigLink.value.isNotBlank()) {
-                Log.d("TAG", "initLoading: is not empty")
                 navigateToWebPage(navController, nigLink.value)
                 nigLinkCollected.value = true
             } else {
@@ -179,7 +175,10 @@ fun NigInitPage(navController: NavController) {
                         nigAlertDialogShowed.value = true
                         initLoading()
                     }) {
-                        Text("Try again")
+                        Text(
+                            "Try again",
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                     }
                 }
             )

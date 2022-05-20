@@ -1,7 +1,6 @@
 package com.happyadda.jaleb.di
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
@@ -24,7 +23,6 @@ class NightApplication : Application() {
         override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
             data?.let {
                 nigAppsFlyerState.postValue(it)
-                Log.d("TAG", "onConversionDataSuccess: $it")
             }
         }
 

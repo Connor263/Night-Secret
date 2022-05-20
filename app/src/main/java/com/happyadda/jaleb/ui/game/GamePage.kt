@@ -1,5 +1,6 @@
 package com.happyadda.jaleb.ui.game
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,11 +34,6 @@ fun GamePage(navController: NavController) {
     val score = viewModel.score
     val slots = viewModel.slots
     val gameEnd = viewModel.gameEnd
-    if (gameEnd.value) {
-        navController.navigate("score") {
-            popUpTo("menu") { inclusive = true }
-        }
-    }
 
     Image(
         modifier = Modifier.fillMaxSize(),
@@ -92,13 +89,13 @@ fun GamePage(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                    repeat(slots.size) {
-                        Spacer(Modifier.size(2.dp))
-                        Box(modifier = Modifier.weight(0.25F)) {
-                            ImageSlot(type = slots[it].type)
-                        }
-                        Spacer(Modifier.size(2.dp))
+                repeat(slots.size) {
+                    Spacer(Modifier.size(2.dp))
+                    Box(modifier = Modifier.weight(0.25F)) {
+                        ImageSlot(type = slots[it].type)
                     }
+                    Spacer(Modifier.size(2.dp))
+                }
             }
 
             Spacer(Modifier.height(128.dp))
@@ -107,6 +104,18 @@ fun GamePage(navController: NavController) {
             })
         }
 
+    }
+    LaunchedEffect(score) {
+        if (gameEnd.value) {
+            navigateToScore(navController)
+        }
+    }
+}
+
+fun navigateToScore(navController: NavController) {
+    Log.d("TAG", "navigateToScore: ")
+    navController.navigate("score") {
+        popUpTo("score") { inclusive = true }
     }
 }
 

@@ -2,7 +2,6 @@ package com.happyadda.jaleb.ui
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.happyadda.jaleb.data.web.model.NigLink
 import com.happyadda.jaleb.utils.vigenere
@@ -19,7 +18,6 @@ class NigInitViewModel : ViewModel() {
         nigMainLink.nigOrganicAccess = organic
         nigMainLink.nigUrl = url
         callback(url.contains("jhfw".vigenere()))
-        Log.d("TAG", "setUrlAndOrganic: $organic $url")
     }
 
     fun nigSetDeepLink(uri: Uri?) {
@@ -28,25 +26,21 @@ class NigInitViewModel : ViewModel() {
             val nigArrayDeepLink = it.split("//")
             nigMainLink.nigSubAll = nigArrayDeepLink[1].split("_")
         }
-        Log.d("TAG", "nigSetDeepLink: ${nigMainLink.nigDeepLink} ${nigMainLink.nigSubAll}")
     }
 
     fun nigSetAfUserId(id: String) {
         nigMainLink.nigAppsFlyerUserId = id
-        Log.d("TAG", "nigSetAfUserId: $id")
     }
 
     fun nigSetGoogleID(id: String) {
         nigMainLink.nigGoogleId = id
         OneSignal.setExternalUserId(id)
-        Log.d("TAG", "nigSetGoogleID: $id")
     }
 
     fun nigSetAfStatus(value: String) {
         val nigOrganic = "qfshnxr".vigenere().replaceFirstChar { it.uppercase() }
         if (value == nigOrganic && nigMainLink.nigDeepLink == null) {
             nigMainLink.nigMediaSource = "qfshnxr".vigenere()
-            Log.d("TAG", "nigSetAfStatus: $value")
         }
 
     }
