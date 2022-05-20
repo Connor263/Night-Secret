@@ -3,13 +3,11 @@ package com.happyadda.jaleb.ui.web
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -34,7 +32,6 @@ fun WebPage(navController: NavController, string: String) {
 
     val nigState = rememberWebViewState(string)
     val nigNavigator = rememberWebViewNavigator()
-    var nigCanGoBack by remember { mutableStateOf(false) }
 
     val nigFileData by remember { mutableStateOf<ValueCallback<Uri>?>(null) }
     var nigFilePath by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
@@ -84,16 +81,12 @@ fun WebPage(navController: NavController, string: String) {
                         allowFileAccess = true
                         lightTouchEnabled = true
                     }
+                    webView.isFocusable = true
                     webView.clearCache(false)
                     CookieManager.getInstance().setAcceptCookie(true)
                     CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
                 },
                 client = object : AccompanistWebViewClient() {
-                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                        super.onPageStarted(view, url, favicon)
-                        nigCanGoBack = view?.canGoBack() ?: false
-                    }
-
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         url?.let {
@@ -122,8 +115,5 @@ fun WebPage(navController: NavController, string: String) {
                 }
             )
         }
-    }
-    BackHandler(nigCanGoBack) {
-        nigNavigator.navigateBack()
     }
 }
