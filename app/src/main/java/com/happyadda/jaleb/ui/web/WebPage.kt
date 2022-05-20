@@ -3,7 +3,6 @@ package com.happyadda.jaleb.ui.web
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.webkit.CookieManager
@@ -21,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.google.accompanist.web.*
 import com.happyadda.jaleb.utils.vigenere
@@ -30,12 +30,12 @@ import com.happyadda.jaleb.utils.vigenere
 @Composable
 fun WebPage(navController: NavController, string: String) {
     Log.d("TAG", "WebPage: $string")
+    val nigContext = LocalContext.current
     val nigState = rememberWebViewState(string)
     val nigNavigator = rememberWebViewNavigator()
 
     val nigFileData by remember { mutableStateOf<ValueCallback<Uri>?>(null) }
     var nigFilePath by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
-    var nigCanGoBack by remember { mutableStateOf(false) }
 
     fun nigProcessResult(data: Intent?) {
         if (nigFileData == null && nigFilePath == null) return
@@ -90,9 +90,8 @@ fun WebPage(navController: NavController, string: String) {
                 },
                 client = remember {
                     object : AccompanistWebViewClient() {
-                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                            super.onPageStarted(view, url, favicon)
-                            nigCanGoBack = view?.canGoBack() ?: false
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
                             url?.let {
                                 if (url.contains("gfdvr=penaids3o".vigenere()) || url.contains("fwehbatb.hwpl".vigenere())) {
                                     navController.navigate("menu") {
@@ -124,7 +123,13 @@ fun WebPage(navController: NavController, string: String) {
         }
     }
 
-    BackHandler(nigCanGoBack) {
-        nigNavigator.navigateBack()
+    BackHandler {
+        if (nigState.loadingState is LoadingState.Loading ||
+            (nigState.loadingState == LoadingState.Finished && nigNavigator.canGoBack)
+        ) {
+            nigNavigator.navigateBack()
+        } else {
+            (nigContext as Activity).moveTaskToBack(true)
+        }
     }
 }

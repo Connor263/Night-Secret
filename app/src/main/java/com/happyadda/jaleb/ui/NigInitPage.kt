@@ -146,7 +146,7 @@ fun NigInitPage(navController: NavController) {
                     nigContext.contentResolver,
                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
                     0
-                ) == 1
+                ) == 0
             ) {
                 navigateToMenuPage(navController)
                 nigLinkCollected.value = true
