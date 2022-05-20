@@ -142,7 +142,7 @@ fun NigInitPage(navController: NavController) {
             if (Settings.Secure.getInt(
                     nigContext.contentResolver,
                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
-                    0
+                    1
                 ) == 0
             ) {
                 navigateToMenuPage(navController)
