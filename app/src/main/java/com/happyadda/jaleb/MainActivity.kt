@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.happyadda.jaleb.ui.AppContent
 import com.happyadda.jaleb.ui.theme.NightSecretTheme
 
@@ -31,17 +33,10 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            val navController = rememberNavController()
             NightSecretTheme {
-                AppContent()
+                AppContent(navController)
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NightSecretTheme {
-        AppContent()
     }
 }

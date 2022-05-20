@@ -3,11 +3,13 @@ package com.happyadda.jaleb.ui.web
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebView
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -28,13 +30,12 @@ import com.happyadda.jaleb.utils.vigenere
 @Composable
 fun WebPage(navController: NavController, string: String) {
     Log.d("TAG", "WebPage: $string")
-
-
     val nigState = rememberWebViewState(string)
     val nigNavigator = rememberWebViewNavigator()
 
     val nigFileData by remember { mutableStateOf<ValueCallback<Uri>?>(null) }
     var nigFilePath by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
+    var nigCanGoBack by remember { mutableStateOf(false) }
 
     fun nigProcessResult(data: Intent?) {
         if (nigFileData == null && nigFilePath == null) return
@@ -65,7 +66,8 @@ fun WebPage(navController: NavController, string: String) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            WebView(state = nigState,
+            WebView(
+                state = nigState,
                 navigator = nigNavigator,
                 onCreated = { webView ->
                     webView.settings.apply {
@@ -81,39 +83,48 @@ fun WebPage(navController: NavController, string: String) {
                         allowFileAccess = true
                         lightTouchEnabled = true
                     }
-                    webView.isFocusable = true
+
                     webView.clearCache(false)
                     CookieManager.getInstance().setAcceptCookie(true)
                     CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
                 },
-                client = object : AccompanistWebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
-                        url?.let {
-                            if (url.contains("gfdvr=penaids3o".vigenere()) || url.contains("fwehbatb.hwpl".vigenere())) {
-                                navController.navigate("menu") {
-                                    popUpTo("init") { inclusive = true }
+                client = remember {
+                    object : AccompanistWebViewClient() {
+                        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                            super.onPageStarted(view, url, favicon)
+                            nigCanGoBack = view?.canGoBack() ?: false
+                            url?.let {
+                                if (url.contains("gfdvr=penaids3o".vigenere()) || url.contains("fwehbatb.hwpl".vigenere())) {
+                                    navController.navigate("menu") {
+                                        popUpTo("init") { inclusive = true }
+                                    }
                                 }
                             }
                         }
                     }
                 },
-                chromeClient = object : AccompanistWebChromeClient() {
-                    override fun onShowFileChooser(
-                        webView: WebView?,
-                        filePathCallback: ValueCallback<Array<Uri>>?,
-                        fileChooserParams: FileChooserParams?
-                    ): Boolean {
-                        nigFilePath = filePathCallback
-                        Intent(Intent.ACTION_GET_CONTENT).run {
-                            addCategory(Intent.CATEGORY_OPENABLE)
-                            type = "kamne/*".vigenere()
-                            nigFileChooseForResult.launch(this)
+                chromeClient = remember {
+                    object : AccompanistWebChromeClient() {
+                        override fun onShowFileChooser(
+                            webView: WebView?,
+                            filePathCallback: ValueCallback<Array<Uri>>?,
+                            fileChooserParams: FileChooserParams?
+                        ): Boolean {
+                            nigFilePath = filePathCallback
+                            Intent(Intent.ACTION_GET_CONTENT).run {
+                                addCategory(Intent.CATEGORY_OPENABLE)
+                                type = "kamne/*".vigenere()
+                                nigFileChooseForResult.launch(this)
+                            }
+                            return true
                         }
-                        return true
                     }
                 }
             )
         }
+    }
+
+    BackHandler(nigCanGoBack) {
+        nigNavigator.navigateBack()
     }
 }
