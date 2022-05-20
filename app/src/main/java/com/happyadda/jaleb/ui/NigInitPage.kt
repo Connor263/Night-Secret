@@ -45,7 +45,6 @@ fun NigInitPage(navController: NavController) {
     val nigPBarVisible = remember { mutableStateOf(true) }
     val nigLinkCollected = remember { mutableStateOf(false) }
     val nigAlertDialogShowed = remember { mutableStateOf(true) }
-    val nigWorkStarted = remember { mutableStateOf(false) }
 
     val nigLinkPreferences = NigLinkPreferences(nigContext)
     val nigLink = nigLinkPreferences.nigGetLink.collectAsState(initial = "")
@@ -61,9 +60,8 @@ fun NigInitPage(navController: NavController) {
         nigAfState?.let {
             val nigCollectedLink = nigInitViewModel.nigCollectLink(nigContext)
             if (URLUtil.isValidUrl(nigCollectedLink)) {
-                navigateToWebPage(navController, nigCollectedLink)
-                nigLinkCollected.value = true
-
+            navigateToWebPage(navController, nigCollectedLink)
+            nigLinkCollected.value = true
                 nigScope.launch {
                     nigLinkPreferences.nigSaveLink(nigCollectedLink)
                 }
@@ -106,7 +104,6 @@ fun NigInitPage(navController: NavController) {
     }
 
     fun nigBeginWork() = nigScope.launch {
-        nigWorkStarted.value = true
         withContext(Dispatchers.IO) {
             nigStartFb()
             nigGetGoogleID()
@@ -144,7 +141,7 @@ fun NigInitPage(navController: NavController) {
                     nigContext.contentResolver,
                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
                     0
-                ) == 1
+                ) == 0
             ) {
                 navigateToMenuPage(navController)
                 return
@@ -154,6 +151,7 @@ fun NigInitPage(navController: NavController) {
             if (nigLink.value.isNotBlank()) {
                 Log.d("TAG", "initLoading: is not empty")
                 navigateToWebPage(navController, nigLink.value)
+                nigLinkCollected.value = true
             } else {
                 nigInitFirebase(nigContext)
             }
@@ -201,7 +199,7 @@ fun NigInitPage(navController: NavController) {
     }
     LaunchedEffect(nigAfState) {
         nigScope.launch {
-            if (!nigWorkStarted.value) nigGetAppsFlyerParams()
+            if (!nigLinkCollected.value)nigGetAppsFlyerParams()
         }
     }
 
