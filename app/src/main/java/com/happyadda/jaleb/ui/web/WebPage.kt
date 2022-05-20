@@ -29,8 +29,13 @@ import com.happyadda.jaleb.utils.vigenere
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun WebPage(navController: NavController, string: String) {
-    val nigState = rememberWebViewState(string)
     Log.d("TAG", "WebPage: $string")
+
+
+    val nigState = rememberWebViewState(string)
+    val nigNavigator = rememberWebViewNavigator()
+    var nigCanGoBack by remember { mutableStateOf(false) }
+
     val nigFileData by remember { mutableStateOf<ValueCallback<Uri>?>(null) }
     var nigFilePath by remember { mutableStateOf<ValueCallback<Array<Uri>>?>(null) }
 
@@ -64,6 +69,7 @@ fun WebPage(navController: NavController, string: String) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             WebView(state = nigState,
+                navigator = nigNavigator,
                 onCreated = { webView ->
                     webView.settings.apply {
                         javaScriptEnabled = true
@@ -83,6 +89,11 @@ fun WebPage(navController: NavController, string: String) {
                     CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
                 },
                 client = object : AccompanistWebViewClient() {
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                        super.onPageStarted(view, url, favicon)
+                        nigCanGoBack = view?.canGoBack() ?: false
+                    }
+
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         url?.let {
@@ -111,5 +122,8 @@ fun WebPage(navController: NavController, string: String) {
                 }
             )
         }
+    }
+    BackHandler(nigCanGoBack) {
+        nigNavigator.navigateBack()
     }
 }

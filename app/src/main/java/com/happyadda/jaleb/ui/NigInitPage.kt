@@ -62,8 +62,8 @@ fun NigInitPage(navController: NavController) {
         nigAfState?.let {
             val nigCollectedLink = nigInitViewModel.nigCollectLink(nigContext)
             if (URLUtil.isValidUrl(nigCollectedLink)) {
-            navigateToWebPage(navController, nigCollectedLink)
-            nigLinkCollected.value = true
+                navigateToWebPage(navController, nigCollectedLink)
+                nigLinkCollected.value = true
                 nigScope.launch {
                     nigLinkPreferences.nigSaveLink(nigCollectedLink)
                 }
@@ -201,7 +201,7 @@ fun NigInitPage(navController: NavController) {
     }
     LaunchedEffect(nigAfState) {
         nigScope.launch {
-            if (!nigLinkCollected.value)nigGetAppsFlyerParams()
+            if (!nigLinkCollected.value) nigGetAppsFlyerParams()
         }
     }
 
@@ -213,7 +213,9 @@ fun NigInitPage(navController: NavController) {
 fun navigateToWebPage(navController: NavController, nigLink: String) {
     val nigEncodedUrl = URLEncoder.encode(nigLink, StandardCharsets.UTF_8.toString())
     navController.navigate("web/$nigEncodedUrl") {
-        popUpTo("init") { inclusive = true }
+        popUpTo("init") {
+            inclusive = true
+        }
     }
 }
 
