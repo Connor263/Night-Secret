@@ -1,6 +1,5 @@
 package com.happyadda.jaleb.ui.game
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -113,7 +112,6 @@ fun GamePage(navController: NavController) {
 }
 
 fun navigateToScore(navController: NavController) {
-    Log.d("TAG", "navigateToScore: ")
     navController.navigate("score") {
         popUpTo("score") { inclusive = true }
     }

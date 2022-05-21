@@ -55,6 +55,6 @@ fun MenuButton(text: String, onClick: () -> Unit = {}) {
             .background(MaterialTheme.colorScheme.tertiary),
         onClick = onClick
     ) {
-        Text(text = text, fontSize = 36.sp)
+        Text(text = text, fontSize = 36.sp, )
     }
 }
