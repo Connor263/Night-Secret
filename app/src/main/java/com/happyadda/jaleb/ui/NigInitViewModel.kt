@@ -69,6 +69,11 @@ class NigInitViewModel : ViewModel() {
     }
 
     fun checkForOrganic(): Boolean {
-        return nigMainLink.nigMediaSource == "qfshnxr".comhappyaddajaleb() && nigMainLink.nigOrganicAccess == false
+        return checkMediaSourceForOrganic() && nigMainLink.nigOrganicAccess == false
     }
+
+    fun checkMediaSourceForOrganic():Boolean{
+        return nigMainLink.nigMediaSource == "qfshnxr".comhappyaddajaleb()
+    }
+
 }

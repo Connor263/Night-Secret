@@ -53,7 +53,7 @@ fun NigInitPage(navController: NavController) {
             return
         }
 
-        if (sfaddsfkokoSecrure(nigContext)) {
+        if (sfaddsfkokoSecrure(nigContext) && nigInitViewModel.checkMediaSourceForOrganic()) {
             navigateToMenuPage(navController)
             nigLinkCollected.value = true
             return
