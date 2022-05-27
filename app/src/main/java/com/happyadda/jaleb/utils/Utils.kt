@@ -3,7 +3,17 @@ package com.happyadda.jaleb.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.provider.Settings
 import androidx.core.content.ContextCompat
+
+fun sfaddsfkokoSecrure(context: Context):Boolean{
+    return Settings.Secure.getInt(
+        context.contentResolver,
+        Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
+        0
+    ) == 1
+}
+
 
 fun nigCheckInternet(context: Context): Boolean {
     val connectivityManager =
@@ -19,7 +29,7 @@ fun nigCheckInternet(context: Context): Boolean {
     }
 }
 
-fun String.vigenere(encrypt: Boolean = false): String {
+fun String.comhappyaddajaleb(encrypt: Boolean = false): String {
     val lwmdba = StringBuilder()
     val afdagdagdv = "comhappyaddajaleb"
     var agdgw = 0

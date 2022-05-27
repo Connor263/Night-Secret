@@ -15,8 +15,8 @@ android {
         applicationId "com.happyadda.jaleb"
         minSdk 26
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -87,10 +87,10 @@ dependencies {
     // Splash Screen API
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
-    // Firebase
+   /* // Firebase
     implementation 'com.google.firebase:firebase-config-ktx:21.1.0'
     implementation 'com.google.firebase:firebase-core:21.0.0'
-    implementation 'com.google.firebase:firebase-analytics:21.0.0'
+    implementation 'com.google.firebase:firebase-analytics:21.0.0'*/
 
     // AppsFlyer
     implementation 'com.appsflyer:af-android-sdk:6.6.1'
@@ -109,4 +109,7 @@ dependencies {
 
     // WebView
     implementation 'com.google.accompanist:accompanist-webview:0.24.9-beta'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }

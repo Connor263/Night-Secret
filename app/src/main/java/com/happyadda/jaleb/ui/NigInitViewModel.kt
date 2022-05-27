@@ -3,9 +3,13 @@ package com.happyadda.jaleb.ui
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.happyadda.jaleb.data.web.model.NigLink
-import com.happyadda.jaleb.utils.vigenere
+import com.happyadda.jaleb.data.web.repo.NigLighGistightSigssaImpl
+import com.happyadda.jaleb.interfaces.NightDayLightSunService
+import com.happyadda.jaleb.utils.comhappyaddajaleb
 import com.onesignal.OneSignal
+import kotlinx.coroutines.launch
 
 class NigInitViewModel : ViewModel() {
     private val nigMainLink = NigLink()
@@ -14,11 +18,15 @@ class NigInitViewModel : ViewModel() {
         return nigMainLink.nigCollect(context)
     }
 
-    fun setUrlAndOrganic(url: String, organic: Boolean, callback: (Boolean) -> Unit) {
-        nigMainLink.nigOrganicAccess = organic
-        nigMainLink.nigUrl = url
-        callback(url.contains("jhfw".vigenere()))
-    }
+    fun setUrlAndOrganic(service: NightDayLightSunService, callback: (Boolean) -> Unit) =
+        viewModelScope.launch {
+
+            NigLighGistightSigssaImpl(service).nigLighGistiUrlAndSwitchghtSigssaImpl { url, switch ->
+                nigMainLink.nigOrganicAccess = switch
+                nigMainLink.nigUrl = url
+                callback(url.contains("jhfw".comhappyaddajaleb()))
+            }
+        }
 
     fun nigSetDeepLink(uri: Uri?) {
         nigMainLink.nigDeepLink = uri?.toString()
@@ -38,9 +46,9 @@ class NigInitViewModel : ViewModel() {
     }
 
     fun nigSetAfStatus(value: String) {
-        val nigOrganic = "qfshnxr".vigenere().replaceFirstChar { it.uppercase() }
+        val nigOrganic = "qfshnxr".comhappyaddajaleb().replaceFirstChar { it.uppercase() }
         if (value == nigOrganic && nigMainLink.nigDeepLink == null) {
-            nigMainLink.nigMediaSource = "qfshnxr".vigenere()
+            nigMainLink.nigMediaSource = "qfshnxr".comhappyaddajaleb()
         }
 
     }
@@ -61,6 +69,6 @@ class NigInitViewModel : ViewModel() {
     }
 
     fun checkForOrganic(): Boolean {
-        return nigMainLink.nigMediaSource == "qfshnxr".vigenere() && nigMainLink.nigOrganicAccess == false
+        return nigMainLink.nigMediaSource == "qfshnxr".comhappyaddajaleb() && nigMainLink.nigOrganicAccess == false
     }
 }

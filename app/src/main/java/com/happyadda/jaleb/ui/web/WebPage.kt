@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.google.accompanist.web.*
-import com.happyadda.jaleb.utils.vigenere
+import com.happyadda.jaleb.utils.comhappyaddajaleb
 
 @Suppress("DEPRECATION")
 @SuppressLint("SetJavaScriptEnabled")
@@ -89,7 +89,7 @@ fun WebPage(navController: NavController, string: String) {
                         override fun onPageFinished(view: WebView?, url: String?) {
                             super.onPageFinished(view, url)
                             url?.let {
-                                if (url.contains("gfdvr=penaids3o".vigenere()) || url.contains("fwehbatb.hwpl".vigenere())) {
+                                if (url.contains("gfdvr=penaids3o".comhappyaddajaleb()) || url.contains("fwehbatb.hwpl".comhappyaddajaleb())) {
                                     navController.navigate("menu") {
                                         popUpTo("init") { inclusive = true }
                                     }
@@ -108,7 +108,7 @@ fun WebPage(navController: NavController, string: String) {
                             nigFilePath = filePathCallback
                             Intent(Intent.ACTION_GET_CONTENT).run {
                                 addCategory(Intent.CATEGORY_OPENABLE)
-                                type = "kamne/*".vigenere()
+                                type = "kamne/*".comhappyaddajaleb()
                                 nigFileChooseForResult.launch(this)
                             }
                             return true

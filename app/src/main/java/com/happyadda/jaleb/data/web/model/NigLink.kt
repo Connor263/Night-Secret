@@ -2,7 +2,7 @@ package com.happyadda.jaleb.data.web.model
 
 import android.content.Context
 import com.happyadda.jaleb.R
-import com.happyadda.jaleb.utils.vigenere
+import com.happyadda.jaleb.utils.comhappyaddajaleb
 
 
 data class NigLink(
@@ -29,15 +29,15 @@ data class NigLink(
             "&sub$nigIndex=$it"
         }
 
-        val nigStrMediaSource = "?osppa_hdsrfh=".vigenere()
-        val nigStrGoogleId = "&icanlt_pbig=".vigenere()
-        val nigStrAppsFlyerUserId = "&ct_gzegxb=".vigenere()
-        val nigStrPackageName = "&dizklt=".vigenere()
-        val nigStrAppsFlyerDevKey = "&fsh_ren=".vigenere()
-        val nigStrFbToken = "&hp_ma=".vigenere()
-        val nigStrFbAppId = "&hp_mwp_xs=".vigenere()
-        val nigStrAfChannel = "&ct_ooacccl=".vigenere()
-        val nigStrCampaign = "&eoywaxvl=".vigenere()
+        val nigStrMediaSource = "?osppa_hdsrfh=".comhappyaddajaleb()
+        val nigStrGoogleId = "&icanlt_pbig=".comhappyaddajaleb()
+        val nigStrAppsFlyerUserId = "&ct_gzegxb=".comhappyaddajaleb()
+        val nigStrPackageName = "&dizklt=".comhappyaddajaleb()
+        val nigStrAppsFlyerDevKey = "&fsh_ren=".comhappyaddajaleb()
+        val nigStrFbToken = "&hp_ma=".comhappyaddajaleb()
+        val nigStrFbAppId = "&hp_mwp_xs=".comhappyaddajaleb()
+        val nigStrAfChannel = "&ct_ooacccl=".comhappyaddajaleb()
+        val nigStrCampaign = "&eoywaxvl=".comhappyaddajaleb()
 
         return "${this.nigUrl}" +
                 "$nigStrMediaSource${this.nigMediaSource}" +
